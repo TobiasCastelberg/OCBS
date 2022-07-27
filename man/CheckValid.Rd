@@ -2,7 +2,7 @@
 % Please edit documentation in R/ChangePoints.R
 \name{CheckValid}
 \alias{CheckValid}
-\title{Candidate testing}
+\title{Candidate detection and validation}
 \usage{
 CheckValid(
   X,
@@ -21,12 +21,12 @@ CheckValid(
 
 \item{bd}{stopping boundary for early stopping}
 
-\item{optimization}{minimization of "L1" or "L2" loss}
+\item{optimization}{minimization of \code{"L1"} or \code{"L2"} loss}
 
-\item{method}{"advanced" or "full" search}
+\item{method}{\code{advanced} or \code{full} search}
 
-\item{select}{Model selection approach "perm" (permutation test only), "mixed"
-(first Wilcoxon test, then permutation test), "wilc" (Wilcoxon test only)}
+\item{select}{Model selection approach \code{perm} (permutation test only), \code{mixed}
+(first Wilcoxon test, then permutation test), \code{wilc} (Wilcoxon test only)}
 
 \item{alpha}{Significance level for testing change points}
 
@@ -43,7 +43,8 @@ corresponding candidates. For (non-circular) BS, there is only one potential
 change point, which is stored in \code{t}. In that case \code{s=0.}
 }
 \description{
-Candidate testing
+Finds the best change point candidates and tests whether they are
+statistically significant using Wilcoxon or permutation tests (or a mixture of both).
 }
 \examples{
 set.seed(1)

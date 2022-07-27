@@ -1,16 +1,13 @@
-#' Remove Small Jumps
+#' RemoveSmallJumps
 #' @description Removes all jumps with change in mean less than \code{threshold*SD}
 #' where \code{SD} is a measurement of the standard deviation using the median
 #' absolut deviation estimator.
-#'
 #' @param X data matrix or data vector
 #' @param cps ordered list of change points the should be reconsidered
 #' @param threshold jump height relative to standard deviation
 #'  so that the change point is accepted
-#'
 #' @return integer vector with change points with little change removed
 #' @export
-#'
 #' @examples set.seed(4)
 #' X <- matrix(rep(c(1,0,1,0), c(80,30,50,40))+rnorm(200,0,0.6), 2, byrow = TRUE)
 #' cps <- optimisticCBS(X, alpha = 0.2)

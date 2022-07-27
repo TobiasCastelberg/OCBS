@@ -16,11 +16,11 @@ optimisticCBS(
 )
 }
 \arguments{
-\item{X}{data vector}
+\item{X}{data vector or matrix}
 
-\item{optimization}{minimization of "L1" or "L2" loss}
+\item{optimization}{minimization of \code{"L1"} or \code{"L2"} loss}
 
-\item{method}{"advanced" or "full" search}
+\item{method}{chose between the fast \code{advanced} or the complete \code{full} search}
 
 \item{select}{Model selection approach "perm" (permutation test only), "mixed" (first Wilcoxon test, then permutation test), "wilc" (Wilcoxon test only)}
 
@@ -36,7 +36,9 @@ optimisticCBS(
 Integer vector containing the change points found in the data
 }
 \description{
-This is the main function of the package.
+This is the main function of the package. It uses \code{CheckValid}
+to find the best change point candidates and then calls itself recursively to find
+further change points on subsegments until no more significant change points are found.
 }
 \examples{
 set.seed(1)

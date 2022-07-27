@@ -6,10 +6,13 @@
 NULL
 
 #' Optimistic Circular Binary Segmentation
-#' @description This is the main function of the package.
-#' @param X data vector
-#' @param optimization minimization of "L1" or "L2" loss
-#' @param method "advanced" or "full" search
+#' @description This is the main function of the package. It uses \code{CheckValid}
+#' to find the best change point candidates and then calls itself recursively to find
+#' further change points on subsegments until no more significant change points are found.
+#'
+#' @param X data vector or matrix
+#' @param optimization minimization of \code{"L1"} or \code{"L2"} loss
+#' @param method chose between the fast \code{advanced} or the complete \code{full} search
 #' @param select Model selection approach "perm" (permutation test only), "mixed" (first Wilcoxon test, then permutation test), "wilc" (Wilcoxon test only)
 #' @param alpha Significance level for testing change points
 #' @param nr_perms Number of permutation for permutation tests
@@ -97,14 +100,17 @@ optimisticCBS <- function(X, optimization="L2", method="advanced", select="mixed
 }
 
 
-#' Candidate testing
+#' Candidate detection and validation
+#'
+#' @description Finds the best change point candidates and tests whether they are
+#' statistically significant using Wilcoxon or permutation tests (or a mixture of both).
 #'
 #' @param X data matrix
 #' @param bd stopping boundary for early stopping
-#' @param optimization minimization of "L1" or "L2" loss
-#' @param method "advanced" or "full" search
-#' @param select Model selection approach "perm" (permutation test only), "mixed"
-#' (first Wilcoxon test, then permutation test), "wilc" (Wilcoxon test only)
+#' @param optimization minimization of \code{"L1"} or \code{"L2"} loss
+#' @param method \code{advanced} or \code{full} search
+#' @param select Model selection approach \code{perm} (permutation test only), \code{mixed}
+#' (first Wilcoxon test, then permutation test), \code{wilc} (Wilcoxon test only)
 #' @param alpha Significance level for testing change points
 #' @param nr_perms Number of permutation for permutation tests
 #' @param circular \code{circular = T} does CBS, else the test will be for BS
@@ -215,8 +221,23 @@ CheckValid <- function(X, bd = NULL, optimization = "L2", method = "advanced", s
 }
 
 
-.correction <- function(X, s, t, optimization, batch){
-  # Optimizes locations after using sample splitting
+#' Optimizes locations after sample splitting
+#'
+#' @description After sample splitting, we have two batches with candidates each.
+#' The candidates with the lower p-value are chosen. One has to reconstruct the
+#' position of these candidates in the original dataset. Since the actual best
+#' change point could be one point off due to splitting, the neighbors are checked.
+#' @param X data matrix
+#' @param s first change point candidate in the batch
+#' @param t second change point candidate in the batch
+#' @param optimization \code{"L1"} or \code{"L2"}
+#' @param batch The batch where the candidates came from to reconstruct their
+#' original position in the full data set.
+#'
+#' @return list containing the candidates in the original data and the corresponding statistic
+#' @export
+#'
+correction <- function(X, s, t, optimization, batch){
   T_ <- ncol(X)
   if(batch==1){
     t <- 2*t-1

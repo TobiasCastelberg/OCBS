@@ -432,14 +432,21 @@ double EvalStatL2(NumericMatrix S, int s, int t){
   return(sqrt(res));
 }
 
+
+//' EvalStatSlow
+//' @description This function is slow and should be avoided. Evaluates the gain function (test statistic)
+//' \code{optimization = "L2"} will compute the cumulative sums just for this evaluation.
+//' \code{optimization = "L1"} will create a tree just for this evaluation.
+//' @param X data matrix
+//' @param s first change point
+//' @param t second change point
+//' @param optimization \code{"L1"} or \code{"L2"} loss
+//' @return gain/reduction of loss/test statistic for this setup of \code{s} and \code{t}
+//' @export
+//'
 // [[Rcpp::export]]
 double EvalStatSlow(NumericMatrix X, int s, int t, String optimization="L2"){
-  // Takes data matrix X as input. This function is slow and should be avoided
-  // Value is the same as EvalStatL2 and BinTree::EvalStat
-  // optimization = "L2":
-  // Computes cumulative sums just for this evalutations
-  // optimization = "L1":
-  // Creates tree just for this evaluations
+
   int n = X.nrow();
   int T = X.ncol();
   if(optimization=="L2"){
@@ -602,22 +609,23 @@ List MaxStatsL2(NumericMatrix X, String method = "advanced",
 }
 
 
-//' Leading NA
+//' Maximal CBS statistic
 //'
-//' This function returns a logical vector identifying if
-//' there are leading NA, marking the leadings NA as TRUE and
-//' everything else as FALSE.
+//' @description Find the points \code{s,t} so that the loss is reduced most when
+//' splitting the segment in \eqn{X_1,...,X_s,X_{t+1},...,X_T} and \eqn{X_{s+1},...,X_t}.
 //'
-//' @param x An integer vector
+//' @param X data matrix
+//' @param optimization minimization of \code{L1} or \code{L2} loss
+//' @param method chose between the fast \code{advanced} or the complete \code{full} search
+//' @param circular performs binary segmentation if \code{FALSE}. In that case
+//' will return \code{s=0}
+//' @param min_seg minimal segment length. Note that change points still can be closer together than \code{min_seg}
+//' @return list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+//' the corresponding gain \code{stat}
 //' @export
 // [[Rcpp::export]]
 List MaxStats(NumericMatrix X, String optimization="L2", String method="advanced",
               bool circular=true, int min_seg=2){
-  // Returns best change point candidates "shift","ind" and the corresponding
-  // gain "stat".
-  // For BS, the (interesting) change point is "ind" (and shift = 0)
-  // optimization = "L1" or "L2", method = "advanced" or "full".
-  // circular = 1 for CBS, circular = 0 for BS
   if(circular){
     if(optimization=="L1")
       return(MaxStatsL1(X, method, min_seg));
@@ -690,6 +698,24 @@ double pPerm(NumericMatrix X, IntegerVector boundary, double cand_stat, String o
 }
 
 
+//' Maximal CBS statistic
+//'
+//' @description Find the points \code{s,t} so that the loss is reduced most when
+//' splitting the segment in \eqn{X_1,...,X_s,X_{t+1},...,X_T} and \eqn{X_{s+1},...,X_t}.
+//'
+//' @param X data matrix
+//' @param boundary stopping boundary for early stopping
+//' @param cand_stat candidate stat, that is, the value from
+//' @param optimization minimization of \code{L1} or \code{L2} loss
+//' @param method chose between the fast \code{advanced} or the complete \code{full} search
+//' @param nr_perms maximal number of permutations
+//' @param alpha significance level
+//' @param circular performs binary segmentation if \code{FALSE}. In that case
+//' will return \code{s=0}
+//' @param min_seg minimal segment length. Note that change points still can be closer together than \code{min_seg}
+//' @return list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+//' the corresponding gain \code{stat}
+//' @export
 // [[Rcpp::export]]
 bool PermTest(NumericMatrix X, IntegerVector boundary, double cand_stat, String optimization, String method, double alpha,
                 int nr_perms = 10000, bool circular = true, int min_seg=2){
@@ -701,20 +727,21 @@ bool PermTest(NumericMatrix X, IntegerVector boundary, double cand_stat, String 
     return(false);
 }
 
-//' Leading NA
-//'
-//' This function returns a logical vector identifying if
-//' there are leading NA, marking the leadings NA as TRUE and asdfdsaf
-//' everything else as FALSE. asdfdsaf
-//'
-//' @param x An integer vector
-//' @keywords internal
+//' StoppingBoundary
+//' @description Calculates the early stopping boundary for permutation tests.
+//' Permutation tests stop early if either more than \code{nr_perms*alpha} many
+//' times the permuted data statistic exceeded the original statistic (no change point)
+//' or if the stopping boundary is hit, i.e. the permuted data statistic exceeded
+//' the original statistic not often enough so that is unlikely to be declined (change point).
+//' @param nr_perms maximal number of permutations
+//' @param alpha significance level
+//' @param eta_star a control parameter for the probability of early stopping errors
+//' @return vector containing \code{nr_perms*alpha} integers
 //' @export
 //'
 // [[Rcpp::export]]
 IntegerVector StoppingBoundary(int nr_perms = 10000, double alpha = 0.01, double eta_star = 0.0005) {
   // Calculates the early stopping boundary
-  // eta_star is a control parameter for the probability of early stopping errors
   int r =  ceil(nr_perms*alpha);
   IntegerVector bdry(r);
 

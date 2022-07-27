@@ -2,7 +2,7 @@
 % Please edit documentation in R/PostSelection.R
 \name{RemoveSmallJumps}
 \alias{RemoveSmallJumps}
-\title{Remove Small Jumps}
+\title{RemoveSmallJumps}
 \usage{
 RemoveSmallJumps(X, cps, threshold = 1)
 }
