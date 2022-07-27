@@ -705,7 +705,7 @@ bool PermTest(NumericMatrix X, IntegerVector boundary, double cand_stat, String 
 //'
 //' This function returns a logical vector identifying if
 //' there are leading NA, marking the leadings NA as TRUE and
-//' everything else as FALSE.
+//' everything else as FALSE. asdfdsaf
 //'
 //' @param x An integer vector
 //' @keywords internal
