@@ -1,11 +1,11 @@
 ---
-title: "README2"
+title: "READ ME"
 author: "Tobias Castelberg"
 date: "July 27, 2022"
 output: pdf_document
 ---
 
-# Optimistic Circular Binary Segmentation for Change Point Detection
+# Optimistic CBS for Change Point Detection
 
 This package provides code for fast and robust change point detection using circular
 binary segmentation with reduced evaluations of the CUSUM statistic and its counterpart
