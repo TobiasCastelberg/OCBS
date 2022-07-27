@@ -19,7 +19,7 @@ EvalStatSlow(X, s, t, optimization = "L2")
 gain/reduction of loss/test statistic for this setup of \code{s} and \code{t}
 }
 \description{
-This function is slow and should be avoided. Evaluates the gain function (test statistic)
-\code{optimization = "L2"} will compute the cumulative sums just for this evaluation.
-\code{optimization = "L1"} will create a tree just for this evaluation.
+This function is slow and should be avoided. Evaluates the gain function (test statistic).
+\code{optimization="L2"} will compute the cumulative sums just for this evaluation.
+\code{optimization="L1"} will create a tree just for this evaluation.
 }

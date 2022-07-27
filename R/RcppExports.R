@@ -2,9 +2,9 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' EvalStatSlow
-#' @description This function is slow and should be avoided. Evaluates the gain function (test statistic)
-#' \code{optimization = "L2"} will compute the cumulative sums just for this evaluation.
-#' \code{optimization = "L1"} will create a tree just for this evaluation.
+#' @description This function is slow and should be avoided. Evaluates the gain function (test statistic).
+#' \code{optimization="L2"} will compute the cumulative sums just for this evaluation.
+#' \code{optimization="L1"} will create a tree just for this evaluation.
 #' @param X data matrix
 #' @param s first change point
 #' @param t second change point
@@ -27,7 +27,7 @@ EvalStatSlow <- function(X, s, t, optimization = "L2") {
 #' @param circular performs binary segmentation if \code{FALSE}. In that case
 #' will return \code{s=0}
 #' @param min_seg minimal segment length. Note that change points still can be closer together than \code{min_seg}
-#' @return list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+#' @return list containing the best change point candidates \code{shift} (\eqn{s}) and \code{ind} (\eqn{t}) and the
 #' the corresponding gain \code{stat}
 #' @export
 MaxStats <- function(X, optimization = "L2", method = "advanced", circular = TRUE, min_seg = 2L) {
@@ -49,7 +49,7 @@ MaxStats <- function(X, optimization = "L2", method = "advanced", circular = TRU
 #' @param circular performs binary segmentation if \code{FALSE}. In that case
 #' will return \code{s=0}
 #' @param min_seg minimal segment length. Note that change points still can be closer together than \code{min_seg}
-#' @return list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+#' @return list containing the best change point candidates \code{shift} (\eqn{s}) and \code{ind} (\eqn{t}) and the
 #' the corresponding gain \code{stat}
 #' @export
 PermTest <- function(X, boundary, cand_stat, optimization, method, alpha, nr_perms = 10000L, circular = TRUE, min_seg = 2L) {

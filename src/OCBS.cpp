@@ -434,9 +434,9 @@ double EvalStatL2(NumericMatrix S, int s, int t){
 
 
 //' EvalStatSlow
-//' @description This function is slow and should be avoided. Evaluates the gain function (test statistic)
-//' \code{optimization = "L2"} will compute the cumulative sums just for this evaluation.
-//' \code{optimization = "L1"} will create a tree just for this evaluation.
+//' @description This function is slow and should be avoided. Evaluates the gain function (test statistic).
+//' \code{optimization="L2"} will compute the cumulative sums just for this evaluation.
+//' \code{optimization="L1"} will create a tree just for this evaluation.
 //' @param X data matrix
 //' @param s first change point
 //' @param t second change point
@@ -620,7 +620,7 @@ List MaxStatsL2(NumericMatrix X, String method = "advanced",
 //' @param circular performs binary segmentation if \code{FALSE}. In that case
 //' will return \code{s=0}
 //' @param min_seg minimal segment length. Note that change points still can be closer together than \code{min_seg}
-//' @return list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+//' @return list containing the best change point candidates \code{shift} (\eqn{s}) and \code{ind} (\eqn{t}) and the
 //' the corresponding gain \code{stat}
 //' @export
 // [[Rcpp::export]]
@@ -713,7 +713,7 @@ double pPerm(NumericMatrix X, IntegerVector boundary, double cand_stat, String o
 //' @param circular performs binary segmentation if \code{FALSE}. In that case
 //' will return \code{s=0}
 //' @param min_seg minimal segment length. Note that change points still can be closer together than \code{min_seg}
-//' @return list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+//' @return list containing the best change point candidates \code{shift} (\eqn{s}) and \code{ind} (\eqn{t}) and the
 //' the corresponding gain \code{stat}
 //' @export
 // [[Rcpp::export]]

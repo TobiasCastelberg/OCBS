@@ -37,7 +37,7 @@ will return \code{s=0}}
 \item{min_seg}{minimal segment length. Note that change points still can be closer together than \code{min_seg}}
 }
 \value{
-list containing the best change point candidates \code{shift}(\eqn{s}) and \code{ind}(\eqn{t}) and the
+list containing the best change point candidates \code{shift} (\eqn{s}) and \code{ind} (\eqn{t}) and the
 the corresponding gain \code{stat}
 }
 \description{
