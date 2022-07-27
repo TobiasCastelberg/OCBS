@@ -2,9 +2,7 @@
 title: "README2"
 author: "Tobias Castelberg"
 date: "July 27, 2022"
-output:
-  pdf_document: default
-  html_document: default
+output: pdf_document
 ---
 
 # Optimistic Circular Binary Segmentation for Change Point Detection
